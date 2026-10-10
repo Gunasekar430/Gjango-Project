@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Stock Management</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #222;
+            color: white;
+        }
+
+        .low {
+            background: #ffcccc;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>📦 Stock Management System</h1>
+
+
+<div class="top">
+
+    <a href="{% url 'add_product' %}">
+        <button>Add Product</button>
+    </a>
+
+    <a href="{% url 'restock_list' %}">
+        <button>Restock Requests</button>
+    </a>
+
+</div>
+
+
+<form method="GET">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search product..."
+        value="{{ search }}"
+    >
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+
+<br>
+
+
+<table>
+
+    <tr>
+
+        <th>ID</th>
+
+        <th>Name</th>
+
+        <th>Category</th>
+
+        <th>Quantity</th>
+
+        <th>Minimum Stock</th>
+
+        <th>Price</th>
+
+        <th>Status</th>
+
+        <th>Action</th>
+
+    </tr>
+
+
+    {% for product in products %}
+
+    <tr
+        {% if product.quantity <= product.minimum_stock %}
+            class="low"
+        {% endif %}
+    >
+
+        <td>
+            {{ product.id }}
+        </td>
+
+        <td>
+            {{ product.name }}
+        </td>
+
+        <td>
+            {{ product.category }}
+        </td>
+
+        <td>
+            {{ product.quantity }}
+        </td>
+
+        <td>
+            {{ product.minimum_stock }}
+        </td>
+
+        <td>
+            ₹{{ product.price }}
+        </td>
+
+        <td>
+
+            {% if product.quantity <= product.minimum_stock %}
+
+                🔴 Low Stock
+
+            {% else %}
+
+                🟢 Available
+
+            {% endif %}
+
+        </td>
+
+        <td>
+
+            <a href="{% url 'stock_out' product.id %}">
+                Stock Out
+            </a>
+
+            |
+
+            {% if product.quantity <= product.minimum_stock %}
+
+            <a href="{% url 'create_restock' product.id %}">
+                Restock
+            </a>
+
+            |
+
+            {% endif %}
+
+            <a href="{% url 'delete_product' product.id %}">
+                Delete
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% empty %}
+
+    <tr>
+
+        <td colspan="8">
+            No products found
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+
+</body>
+
+</html>

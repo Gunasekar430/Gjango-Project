@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .box {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            width: 500px;
+        }
+
+        .number {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="nav">
+        <h1>NUMBER HUNT</h1>
+
+        <div class="Timer">
+            <h3>Time : <span id="time">30</span></h3>
+            <h3>Score : <span id="score">50</span></h3>
+        </div>
+    </div>
+
+    <div class="box" id="box">
+        
+    </div>
+
+    <h2>Target number : <span id="target">3</span></h2>
+
+
+    <script>
+        
+        let Time = document.getElementById('time');
+        let Score = document.getElementById('score');
+        let Target = document.getElementById('target');
+        let Box = document.getElementById('box');
+        let Value = document.getElementById('value')
+        
+
+
+        for(i=1; i<17; i++){
+            
+            let RandomNumber = Math.floor(Math.random() * 9)
+
+            console.log(RandomNumber)
+
+            Box.innerHTML += ` <h1 class="number"> ${RandomNumber} </h1> `
+        }
+
+        
+        let TargetValue = Number(Target.textContent)
+        console.log("Target value",TargetValue + 10)
+
+
+        
+        let Numbers = document.querySelectorAll('.number')
+
+        Numbers.forEach(num => {
+            num.addEventListener('click', function(){
+            console.log("Value",num.innerText)
+
+            numberList = num.innerText
+
+            if(numberList == TargetValue){
+                
+            }
+        })
+        })
+
+
+         
+
+        let time = 5
+
+        const timer = setInterval(()=>{
+            console.log("timer",time)
+            Time.textContent = time
+            time--
+
+            if(time < 0){
+                clearInterval(timer)
+            }
+        },1000)
+
+    </script>
+</body>
+</html>

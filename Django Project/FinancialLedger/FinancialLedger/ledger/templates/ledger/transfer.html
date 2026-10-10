@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Transfer Money</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: green;
+            color: white;
+            border: none;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h2>Transfer Money</h2>
+
+
+    {% for message in messages %}
+
+        <p>{{ message }}</p>
+
+    {% endfor %}
+
+
+    <form
+        action="{% url 'transfer' %}"
+        method="post"
+    >
+
+        {% csrf_token %}
+
+
+        <label>
+            From Account
+        </label>
+
+        <select name="from_account">
+
+            <option value="">
+                Select Account
+            </option>
+
+            {% for account in accounts %}
+
+            <option value="{{ account.id }}">
+
+                {{ account.name }}
+                -
+                {{ account.account_number }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <label>
+            To Account
+        </label>
+
+        <select name="to_account">
+
+            <option value="">
+                Select Account
+            </option>
+
+            {% for account in accounts %}
+
+            <option value="{{ account.id }}">
+
+                {{ account.name }}
+                -
+                {{ account.account_number }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <label>
+            Amount
+        </label>
+
+        <input
+            type="number"
+            name="amount"
+            step="0.01"
+            placeholder="Enter amount"
+        >
+
+
+        <button type="submit">
+            Transfer
+        </button>
+
+    </form>
+
+
+    <a href="{% url 'index' %}">
+        ← Back
+    </a>
+
+</div>
+
+</body>
+
+</html>

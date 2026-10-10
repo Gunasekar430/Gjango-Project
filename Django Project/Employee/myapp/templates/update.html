@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="form">
+        <form action="{% url 'update' update.id %}" method="post">
+            {% csrf_token %}
+            <input type="text" name = 'name' value="{{update.employee.Name}}" placeholder="Enter your Name">
+            <input type="text" name = 'role' value="{{update.employee.Role}}"  placeholder="Enter your Role">
+            <input type="text" name = 'startTime' value="{{update.StartTime|time:'H:i'}}"  placeholder="Enter your Start Time">
+            <input type="text" name = 'endTime' value="{{update.EndTime|time:'H:i'}}"  placeholder="Enter your End Time">
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</body>
+</html>

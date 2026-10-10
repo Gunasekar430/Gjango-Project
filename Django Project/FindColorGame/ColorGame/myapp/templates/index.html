@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Treasure Hunt Game</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+            color: #222;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .start-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .start-box input {
+            width: 250px;
+            padding: 12px;
+            margin-right: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #222;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .game-panel {
+            display: none;
+        }
+
+        .info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .message {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            min-height: 24px;
+        }
+
+        .grid {
+            width: 420px;
+            height: 420px;
+            margin: 0 auto 20px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 5px;
+        }
+
+        .cell {
+            background: white;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+            border-radius: 6px;
+        }
+
+        .player {
+            background: #222;
+            color: white;
+        }
+
+        .treasure {
+            background: #f5c542;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .controls button {
+            margin: 3px;
+            min-width: 55px;
+        }
+
+        .leaderboard {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .leaderboard h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .game-over {
+            display: none;
+            text-align: center;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid {
+                width: 95vw;
+                height: 95vw;
+            }
+
+            .start-box input {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎮 Treasure Hunt Game</h1>
+
+    <div class="start-box">
+        <input
+            type="text"
+            id="playerName"
+            placeholder="Enter Player Name"
+        >
+
+        <button id="startBtn">
+            Start Game
+        </button>
+    </div>
+
+    <div class="game-panel" id="gamePanel">
+
+        <div class="info">
+
+            <div class="card">
+                <h3>Player</h3>
+                <p id="playerDisplay">-</p>
+            </div>
+
+            <div class="card">
+                <h3>Time</h3>
+                <p id="time">30</p>
+            </div>
+
+            <div class="card">
+                <h3>Score</h3>
+                <p id="score">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Treasures</h3>
+                <p id="treasures">0</p>
+            </div>
+
+        </div>
+
+        <div class="message" id="message">
+            Use arrow keys to move
+        </div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="controls">
+            <button onclick="movePlayer('up')">↑</button>
+            <br>
+
+            <button onclick="movePlayer('left')">←</button>
+            <button onclick="movePlayer('down')">↓</button>
+            <button onclick="movePlayer('right')">→</button>
+        </div>
+
+        <div class="game-over" id="gameOver">
+
+            <h2>🎉 Game Over</h2>
+
+            <p>
+                Player:
+                <strong id="finalPlayer"></strong>
+            </p>
+
+            <p>
+                Score:
+                <strong id="finalScore"></strong>
+            </p>
+
+            <p>
+                Treasures Found:
+                <strong id="finalTreasures"></strong>
+            </p>
+
+            <p>
+                Moves:
+                <strong id="finalMoves"></strong>
+            </p>
+
+            <button onclick="location.reload()">
+                Play Again
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="leaderboard">
+
+        <h2>🏆 Top 5 Leaderboard</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Score</th>
+                    <th>Treasures</th>
+                    <th>Moves</th>
+                </tr>
+            </thead>
+
+            <tbody id="leaderboardBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const GRID_SIZE = 5;
+    const GAME_TIME = 30;
+
+    let playerName = "";
+
+    let playerRow = 0;
+    let playerCol = 0;
+
+    let treasureRow = 0;
+    let treasureCol = 0;
+
+    let score = 0;
+    let treasuresFound = 0;
+    let moves = 0;
+
+    let timeLeft = GAME_TIME;
+
+    let gameRunning = false;
+    let timer = null;
+
+    const grid = document.getElementById("grid");
+    const startBtn = document.getElementById("startBtn");
+    const playerNameInput = document.getElementById("playerName");
+
+    const playerDisplay = document.getElementById("playerDisplay");
+    const timeDisplay = document.getElementById("time");
+    const scoreDisplay = document.getElementById("score");
+    const treasureDisplay = document.getElementById("treasures");
+    const message = document.getElementById("message");
+
+    startBtn.addEventListener("click", startGame);
+
+
+    function startGame() {
+
+        playerName = playerNameInput.value.trim();
+
+        if (playerName === "") {
+            alert("Please enter player name");
+            return;
+        }
+
+        playerRow = 0;
+        playerCol = 0;
+
+        score = 0;
+        treasuresFound = 0;
+        moves = 0;
+
+        timeLeft = GAME_TIME;
+
+        gameRunning = true;
+
+        playerDisplay.textContent = playerName;
+        timeDisplay.textContent = timeLeft;
+        scoreDisplay.textContent = score;
+        treasureDisplay.textContent = treasuresFound;
+
+        document.getElementById("gamePanel").style.display = "block";
+        document.getElementById("gameOver").style.display = "none";
+
+        message.textContent = "Find the treasure!";
+
+        generateTreasure();
+
+        renderGrid();
+
+        startTimer();
+    }
+
+
+    function renderGrid() {
+
+        grid.innerHTML = "";
+
+        for (let row = 0; row < GRID_SIZE; row++) {
+
+            for (let col = 0; col < GRID_SIZE; col++) {
+
+                const cell = document.createElement("div");
+
+                cell.classList.add("cell");
+
+                if (
+                    row === playerRow &&
+                    col === playerCol
+                ) {
+                    cell.classList.add("player");
+                    cell.textContent = "P";
+                }
+
+                if (
+                    row === treasureRow &&
+                    col === treasureCol
+                ) {
+                    cell.classList.add("treasure");
+                    cell.textContent = "T";
+                }
+
+                grid.appendChild(cell);
+            }
+        }
+    }
+
+
+    function generateTreasure() {
+
+        do {
+
+            treasureRow = Math.floor(
+                Math.random() * GRID_SIZE
+            );
+
+            treasureCol = Math.floor(
+                Math.random() * GRID_SIZE
+            );
+
+        } while (
+            treasureRow === playerRow &&
+            treasureCol === playerCol
+        );
+    }
+
+
+    function movePlayer(direction) {
+
+        if (!gameRunning) {
+            return;
+        }
+
+        let newRow = playerRow;
+        let newCol = playerCol;
+
+
+        if (direction === "up") {
+            newRow--;
+        }
+
+        if (direction === "down") {
+            newRow++;
+        }
+
+        if (direction === "left") {
+            newCol--;
+        }
+
+        if (direction === "right") {
+            newCol++;
+        }
+
+
+        // Boundary condition
+        if (
+            newRow < 0 ||
+            newRow >= GRID_SIZE ||
+            newCol < 0 ||
+            newCol >= GRID_SIZE
+        ) {
+
+            message.textContent =
+                "❌ You cannot move outside the grid.";
+
+            return;
+        }
+
+
+        // Valid move
+        playerRow = newRow;
+        playerCol = newCol;
+
+        moves++;
+        score++;
+
+        updateDistance();
+
+        // Treasure condition
+        if (
+            playerRow === treasureRow &&
+            playerCol === treasureCol
+        ) {
+
+            treasuresFound++;
+
+            score += 50;
+
+            message.textContent =
+                "🎉 Treasure Found! +50";
+
+            generateTreasure();
+        }
+
+        renderGrid();
+
+        updateUI();
+    }
+
+
+    function updateDistance() {
+
+        const distance =
+            Math.abs(playerRow - treasureRow) +
+            Math.abs(playerCol - treasureCol);
+
+        if (distance === 0) {
+
+            message.textContent =
+                "🎉 Treasure Found!";
+
+        }
+        else if (distance <= 2) {
+
+            message.textContent =
+                "🔥 You are Near the Treasure!";
+
+        }
+        else {
+
+            message.textContent =
+                "🔵 You are Far from the Treasure.";
+        }
+    }
+
+
+    function updateUI() {
+
+        if (score < 0) {
+            score = 0;
+        }
+
+        scoreDisplay.textContent = score;
+        treasureDisplay.textContent = treasuresFound;
+    }
+
+
+    function startTimer() {
+
+        clearInterval(timer);
+
+        timer = setInterval(() => {
+
+            if (!gameRunning) {
+                return;
+            }
+
+            timeLeft--;
+
+            timeDisplay.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+
+                endGame();
+            }
+
+        }, 1000);
+    }
+
+
+    function endGame() {
+
+        if (!gameRunning) {
+            return;
+        }
+
+        gameRunning = false;
+
+        clearInterval(timer);
+
+        message.textContent =
+            "⏰ Time Over!";
+
+        document.getElementById("finalPlayer").textContent =
+            playerName;
+
+        document.getElementById("finalScore").textContent =
+            score;
+
+        document.getElementById("finalTreasures").textContent =
+            treasuresFound;
+
+        document.getElementById("finalMoves").textContent =
+            moves;
+
+        document.getElementById("gameOver").style.display =
+            "block";
+
+        saveResult();
+
+        loadLeaderboard();
+    }
+
+
+    async function saveResult() {
+
+        const csrfToken =
+            getCSRFToken();
+
+        try {
+
+            const response = await fetch(
+                "/save-result/",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken
+                    },
+
+                    body: JSON.stringify({
+
+                        player_name: playerName,
+                        score: score,
+                        treasures_found: treasuresFound,
+                        moves: moves
+
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!data.success) {
+
+                console.log(
+                    data.message
+                );
+            }
+
+        }
+        catch (error) {
+
+            console.log(
+                "Save error:",
+                error
+            );
+        }
+    }
+
+
+    function getCSRFToken() {
+
+        const cookies =
+            document.cookie.split(";");
+
+        for (let cookie of cookies) {
+
+            const [name, value] =
+                cookie.trim().split("=");
+
+            if (name === "csrftoken") {
+
+                return decodeURIComponent(value);
+            }
+        }
+
+        return "";
+    }
+
+
+    async function loadLeaderboard() {
+
+        try {
+
+            const response =
+                await fetch("/leaderboard/");
+
+            const data =
+                await response.json();
+
+            const body =
+                document.getElementById(
+                    "leaderboardBody"
+                );
+
+            body.innerHTML = "";
+
+            data.forEach(player => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${player.rank}</td>
+                    <td>${player.player_name}</td>
+                    <td>${player.score}</td>
+                    <td>${player.treasures_found}</td>
+                    <td>${player.moves}</td>
+                `;
+
+                body.appendChild(row);
+
+            });
+
+        }
+        catch (error) {
+
+            console.log(
+                "Leaderboard error:",
+                error
+            );
+        }
+    }
+
+
+    // Keyboard movement
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (!gameRunning) {
+                return;
+            }
+
+            if (event.key === "ArrowUp") {
+
+                event.preventDefault();
+
+                movePlayer("up");
+            }
+
+            if (event.key === "ArrowDown") {
+
+                event.preventDefault();
+
+                movePlayer("down");
+            }
+
+            if (event.key === "ArrowLeft") {
+
+                event.preventDefault();
+
+                movePlayer("left");
+            }
+
+            if (event.key === "ArrowRight") {
+
+                event.preventDefault();
+
+                movePlayer("right");
+            }
+
+        }
+    );
+
+
+    // Load leaderboard when page opens
+
+    loadLeaderboard();
+
+</script>
+
+</body>
+</html>

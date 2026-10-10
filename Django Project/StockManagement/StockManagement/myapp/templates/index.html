@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <h1>Stock Reorder Management System</h1>
+    </div>
+
+    <div class="addProduct">
+        <a href="{% url 'add' %}"><button>add Product</button></a>
+    </div>
+
+    <div class="tables">
+        <table border="1">
+            <thead>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Minimum Stock</th>
+                <th>price</th>
+                <th>Action</th>
+            </thead>
+
+            <tbody>
+
+                
+                
+                {% for p in product %}
+                {% if p.quantity > 0 %}
+                    <tr>
+                        <td>{{p.name}}</td>
+                        <td>{{p.category}}</td>
+                        <td>{{p.quantity}}</td>
+                        <td>{{p.minimum_stock}}</td>
+                        <td>{{p.price}}</td>
+                        <td>
+                            <a href="{% url 'purchase' p.id %}"><button>Purchase</button></a>
+                            <a href="{% url 'delete' p.id %}"><button>Delete</button></a>
+                        </td>
+                    </tr>
+                
+
+                {% else %}
+                    <tr>
+                        <td>{{p.name}}</td>
+                        <td>{{p.category}}</td>
+                        <td>{{p.quantity}}</td>
+                        <td>{{p.minimum_stock}}</td>
+                        <td>{{p.price}}</td>
+                        <td>
+                            <a href="{% url 'purchase' p.id %}"><button>Purchase</button></a>
+                            <a href="{% url 'restock' p.id %}"><button>Restock</button></a>
+                            <a href="{% url 'delete' p.id %}"><button>Delete</button></a>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% endfor %}
+                    
+                
+                    
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

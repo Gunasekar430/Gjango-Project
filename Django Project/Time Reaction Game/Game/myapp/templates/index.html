@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 10px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <h1>REAL-TIME REACTION CHALLENGE</h1>
+    </div>
+
+    <div class="time">
+        <h4 id = "time">30</h4>
+    </div>
+
+    <div class="box" id="box">
+        
+    </div>
+
+    <div class="score">
+        <h2>Score <span id="score">50</span></h2>
+    </div>
+
+    <div class="input">
+        <input type="text" id="input">
+
+        <button id="button">Click</button>
+    </div>
+
+<script>
+
+let Box = document.getElementById('box')
+let Input = document.getElementById('input')
+let Button = document.getElementById('button')
+let Score = document.getElementById('score')
+let Time = document.getElementById('time')
+
+let startTime = 30
+
+let Timer = setInterval(() => {
+
+    startTime--
+    Time.textContent = startTime
+
+    if(startTime <= 0){
+        clearInterval(Timer)
+        Button.disabled = true
+    }
+
+}, 1000)
+
+
+function generateNumbers(){
+
+    Box.innerHTML = ""
+
+    let numbers = []
+
+    for(let i = 1; i <= 9; i++){
+
+        let number = Math.floor(Math.random() * 10) + 1
+
+        numbers.push(number)
+
+        Box.innerHTML += `<h1>${number}</h1>`
+    }
+
+    // 9 numbers-la oru number target
+    let targetIndex = Math.floor(Math.random() * numbers.length)
+
+    console.log("index",targetIndex)
+
+    let targetNumber = numbers[targetIndex]
+
+    console.log("Target:", targetNumber)
+
+    return targetNumber
+}
+
+
+let targetNumber = generateNumbers()
+
+
+Button.addEventListener('click', function(){
+
+    let inputValue = Number(Input.value)
+
+    let scoreValue = Number(Score.textContent)
+
+    if(inputValue === targetNumber){
+
+        Score.textContent = scoreValue + 5
+
+    }else{
+
+        Score.textContent = scoreValue - 3
+
+    }
+
+    // Next round
+    targetNumber = generateNumbers()
+
+    Input.value = ""
+
+})
+
+    </script>
+</body>
+</html>

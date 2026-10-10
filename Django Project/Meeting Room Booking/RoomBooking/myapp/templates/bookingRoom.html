@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{room.room_name}}</h1>
+
+    <div class="main">
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Enter title" name="title">
+            <input type="time" placeholder="Enter Start Time" name="start_Time">
+            <input type="time" placeholder="Enter end Time" name="end_Time">
+            <input type="text" placeholder="Enter booked_by" name="booked_by">
+
+            <button type="submit">Booking Rooms</button>
+        </form>
+    </div>
+</body>
+</html>

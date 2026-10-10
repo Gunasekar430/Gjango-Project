@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <h1>Purchase Page</h1>
+    </div>
+
+    <div class="box">
+        <form  method="post">
+            {% csrf_token %}
+
+            <h3>product Name :{{product.name}}</h3>
+            <h3>Product Category :{{product.category}}</h3>
+            <h3>Product Quantity :<span id="quantity">{{product.quantity}}</span></h3>
+            <input type="hidden" name = 'newValue' id="newValue" >
+
+            <input type="number" name="productQuantity" id="productQuantity">
+
+            <button id="purchase" type="submit">Purchase</button>
+        </form>
+    </div>
+
+    <script>
+        let ProductQuantity = document.getElementById('productQuantity')
+        let Purchase = document.getElementById('purchase')
+        let Quantity = document.getElementById('quantity')
+        let NewValue = document.getElementById('newValue')
+
+
+        Purchase.addEventListener('click', function(event){
+            event.preventDefault();
+            let value = Number(ProductQuantity.value)
+            //console.log(value)
+
+            let quantity = Number(Quantity.textContent)
+
+            //console.log(quantity + 5)
+
+            if( quantity < value){
+                alert ('not product')
+            }
+            
+            else {
+                let Total =  quantity - value;
+
+                NewValue.value = Total
+                console.log(NewValue.textContent)
+
+                event.target.form.submit()
+                
+            }
+        })
+        
+
+    </script>
+</body>
+</html>

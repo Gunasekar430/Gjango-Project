@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f0f5f0;
+    padding: 30px 20px;
+}
+
+/* ================= HEADER ================= */
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: #2e7d32;
+}
+
+/* ================= TABLE CONTAINER ================= */
+.table {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ================= BUTTONS ================= */
+button {
+    padding: 8px 18px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+button:hover {
+    background: #1b5e20;
+}
+
+.table > a button {
+    margin-bottom: 15px;
+}
+
+/* ================= TABLE ================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+table th {
+    background: #2e7d32;
+    color: white;
+    font-weight: bold;
+}
+
+table tbody tr:nth-child(even) {
+    background: #f8faf8;
+}
+
+table tbody tr:hover {
+    background: #e8f5e9;
+}
+
+/* Action buttons inside table */
+table td a button {
+    padding: 6px 12px;
+    font-size: 13px;
+    margin: 2px;
+    background: #4caf50;
+}
+
+table td a button:hover {
+    background: #2e7d32;
+}
+
+/* ================= FORM (add / update / view) ================= */
+.form {
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form input {
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+.form input:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+.form button {
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+/* ================= STATUS COLORS ================= */
+.result {
+    font-weight: bold;
+}
+
+td.result {
+    color: #c62828;
+}
+
+td.result:contains("Permission") {
+    color: #2e7d32;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 700px) {
+    body {
+        padding: 15px 10px;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .table {
+        padding: 15px;
+        overflow-x: auto;
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    table td a button {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .form {
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .form input {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

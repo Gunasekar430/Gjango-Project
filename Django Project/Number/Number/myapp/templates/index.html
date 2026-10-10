@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .cart{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="mark" id="storeValue">
+        <input type="hidden" name="time" id="storeTime">
+    </form>
+    <div class="nav">
+        <h1>Real Time Number Hunt Challenge</h1>
+    </div>
+
+    <h1 id="mark">10</h1>
+
+    <h2 id="time">30</h2>
+
+    <div class="cart" id="cart">
+
+    </div>
+
+    <script>
+
+        function value(){
+            console.log('value')
+        }
+
+        //value()
+
+
+        let Cart = document.getElementById('cart')
+        
+        let Mark = document.getElementById('mark')
+
+        var StoreMark = document.getElementById('storeTime')
+
+        var StoreValue = document.getElementById('storeValue')
+
+        StoreValue.textContent = 0
+
+        
+
+        function random(){
+            Cart.innerHTML = ''
+            for(i=0; i<12;i++){
+
+                let randomNumber = Math.floor(Math.random() * 12 + 1)
+
+                console.log(randomNumber)
+
+                Cart.innerHTML += `<h1 class = "box"> ${randomNumber} </h1>`
+                
+            }
+
+
+            let Box = document.querySelectorAll('.box')
+
+        Box.forEach((num) =>{
+
+            num.addEventListener('click', function(){
+
+                let ClickValue = num.textContent
+
+                console.log(" value ",ClickValue)
+
+                let findNumber = Math.floor(Math.random() * 12 + 1)
+
+                console.log('valueFind', findNumber)
+
+                let MarkNumber = Number(Mark.textContent)
+
+                if(ClickValue == findNumber){
+                    Mark.textContent = MarkNumber + 10
+
+                }
+
+                else{
+                    Mark.textContent = MarkNumber - 3
+                }
+                
+            })    
+        })
+        }
+
+        random()
+        
+        
+
+        let Time = document.getElementById('time')
+
+        let Timer = 5
+
+        let StartTime = setInterval(()=>{
+            console.log(Timer)
+            Time.textContent = Timer
+            Timer --
+
+            if(Timer < 0){
+                clearInterval(StartTime)
+
+                let Box = document.querySelectorAll(".box");
+
+                Box.forEach(function (box) {
+
+                    box.style.pointerEvents = "none";
+
+                    StoreValue.textContent = Mark.textContent
+                    
+                    console.log("store Value",StoreValue.textContent)
+
+                    document.querySelector('form').submit()
+
+                });
+            }
+        },1000)
+       
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="form">
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name = 'name' value="{{view.employee.Name}}" placeholder="Enter your Name">
+            <input type="text" name = 'role' value="{{view.employee.Role}}"  placeholder="Enter your Role">
+            <input type="text" name = 'startTime' value="{{view.StartTime}}"  placeholder="Enter your Start Time">
+            <input type="text" name = 'endTime' value="{{view.EndTime}}"  placeholder="Enter your End Time">
+            
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="form">
+        <form action="{% url 'add' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name = 'name' placeholder="Enter your Name">
+            <input type="text" name = 'role' placeholder="Enter your Role">
+            <input type="time" name = 'startTime' placeholder="Enter your Start Time">
+            <input type="time" name = 'endTime' placeholder="Enter your End Time">
+            <button type="submit">Add Employee</button>
+        </form>
+    </div>
+</body>
+</html>

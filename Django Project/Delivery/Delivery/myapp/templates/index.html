@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f0f5f0;
+    padding: 30px 20px;
+}
+
+/* ================= MAIN CONTAINER ================= */
+.main {
+    max-width: 1000px;
+    margin: 0 auto 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.main h1 {
+    text-align: center;
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
+
+/* ================= BUTTONS ================= */
+button {
+    padding: 10px 24px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+button:hover {
+    background: #1b5e20;
+}
+
+/* ================= FORM INPUTS ================= */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+form input {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+form input:focus {
+    border-color: #2e7d32;
+}
+
+form button {
+    margin-top: 10px;
+    width: fit-content;
+}
+
+/* ================= TABLE ================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 15px;
+}
+
+table thead th {
+    background: #2e7d32;
+    color: white;
+    font-weight: bold;
+}
+
+table tbody tr:nth-child(even) {
+    background: #f8faf8;
+}
+
+table tbody tr:hover {
+    background: #e8f5e9;
+}
+
+/* Status colors */
+.status {
+    font-weight: bold;
+}
+
+.status:contains("Free"),
+td.status {
+    color: #2e7d32;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+    body {
+        padding: 15px 10px;
+    }
+
+    .main {
+        padding: 18px;
+    }
+
+    .main h1 {
+        font-size: 1.3rem;
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    button {
+        padding: 8px 18px;
+        font-size: 14px;
+    }
+
+    form input {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>Food Order Page</h1>
+
+        <a href="{% url 'orderPage' %}"><button>Order Page</button></a>
+
+        <table border="1">
+            <thead>
+                <th>Name</th>
+                <th>Area</th>
+                <th>Current_Orders</th>
+                <th>Status</th>
+            </thead>
+
+            
+            {% for e in emp %}
+                <tr>
+                    <td>{{e.name}}</td>
+                    <td>{{e.area}}</td>
+                    <th><span class="orderCount">{{e.current_Orders}}</span></th>
+                    <th class="status">{{e.status}}</th>
+                </tr>
+            {% endfor %}
+                
+        </table>
+    </div>
+
+
+    <script>
+        let OrderCount = document.querySelectorAll('.orderCount')
+
+        let Status = document.querySelectorAll('.status')
+
+        OrderCount.forEach((num, index)=>{
+            console.log(num.textContent)
+
+            let OrderList = Number(num.textContent.trim())
+
+            //Status.textContent = 'value'
+
+            if(OrderList < 2){
+                Status[index].textContent = 'Free'
+            }
+
+            else if(OrderList < 5){
+                Status[index].textContent = 'Booking Order'
+            }
+
+            else {
+                Status[index].textContent = 'Sorry Not Pick up Order'
+            }
+
+        })
+        
+    </script>
+</body>
+</html>

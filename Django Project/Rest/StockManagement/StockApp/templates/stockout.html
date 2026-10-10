@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Stock Out</title>
+
+</head>
+
+<body>
+
+<h1>Stock Out</h1>
+
+
+<h3>
+    Product: {{ product.name }}
+</h3>
+
+
+<h3>
+    Available Stock: {{ product.quantity }}
+</h3>
+
+
+{% if error %}
+
+<p style="color:red;">
+    {{ error }}
+</p>
+
+{% endif %}
+
+
+<form method="POST">
+
+    {% csrf_token %}
+
+
+    <label>
+        Quantity to Issue
+    </label>
+
+
+    <input
+        type="number"
+        name="quantity"
+        min="1"
+        max="{{ product.quantity }}"
+        required
+    >
+
+
+    <button type="submit">
+        Issue Stock
+    </button>
+
+</form>
+
+
+<br>
+
+
+<a href="{% url 'index' %}">
+    Back
+</a>
+
+
+</body>
+
+</html>

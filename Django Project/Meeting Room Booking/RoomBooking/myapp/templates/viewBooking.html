@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <h1>Booking Rooms List</h1>
+
+        <table border="1">
+            <thead>
+                <th>Room Name</th>
+                <th>Title</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Booked By</th>
+                <th>Action</th>
+            </thead>
+
+            <tbody>
+                
+                {% for m in meeting %}
+                    <tr>
+                        <td>{{m.room.room_name}}</td>
+                        <td>{{m.title}}</td>
+                        <td>{{m.start_Time}}</td>
+                        <td>{{m.end_Time}}</td>
+                        <td>{{m.booked_by}}</td>
+                        <td>
+                            <a href="{% url 'cancel' m.id %}"><button>Cancel</button></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

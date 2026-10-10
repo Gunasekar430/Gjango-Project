@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <h1>Add Table</h1>
+    </div>
+
+    <form action="" method="post">
+
+        {% csrf_token %}
+
+        <input type="text" placeholder="Enter Your name" name="name">
+        <input type="text" placeholder="Enter Your role" name="role">
+        <input type="text" placeholder="Enter Your employee_id" name="employee_id">
+        <input type="time" placeholder="Enter Your start_time" name="start_time">
+        <input type="time" placeholder="Enter Your end_time" name="end_time">
+
+        <button type="submit">submit</button>
+    </form>
+</body>
+</html>

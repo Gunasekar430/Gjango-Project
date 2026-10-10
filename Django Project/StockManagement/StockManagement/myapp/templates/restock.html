@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="view">
+
+        <h3>{{product.name}}</h3>
+        <h3>{{product.category}}</h3>
+        <h3>{{product.price}}</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="number" placeholder="Restock Count" name = 'restock'>
+            <button type="submit">add Restock</button>
+        </form>
+    </div>
+</body>
+</html>

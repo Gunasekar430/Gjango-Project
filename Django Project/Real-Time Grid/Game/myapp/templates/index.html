@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .card{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            width: 300px;
+            height: 300px;
+        }
+
+        .box{
+            width: 60px;
+            height: 60px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <h1>Real Time Grid Treasure Game</h1>
+
+        <h3 id="text">value</h3>
+    </div>
+
+    <div class="card" id="card">
+    
+    </div>
+
+    <script>
+        let Card = document.getElementById('card')
+
+        let list = []
+
+        let colors = [
+            'red',
+            'yellow',
+            'pink',
+            'blue',
+            'green'
+        ]
+
+        let PColor = [
+            'black',
+            'orange',
+            
+        ]
+
+        let RandomColor = Math.floor(Math.random()* colors.length)
+
+        let RandomNumber = Math.floor(Math.random()*20 + 5)
+
+        let RandomPosition = Math.floor(Math.random()*25)
+
+        let RandomPositionColor = Math.floor(Math.random()* PColor.length)
+
+        console.log(RandomNumber)
+
+        for(i=0; i<25; i++){
+
+            let Box = document.createElement('div')
+
+            Box.classList.add('box')
+
+            Card.appendChild(Box)
+
+            list.push(Box)
+
+        }
+
+        list[RandomNumber].style.backgroundColor = colors[RandomColor]
+
+        list[RandomPosition].style.backgroundColor = PColor[RandomPositionColor]
+
+        
+
+        let playPosition = RandomPosition
+
+        list[playPosition].style.backgroundColor = PColor[RandomPositionColor]
+
+        document.addEventListener('keydown', function(event){
+            let Text = document.getElementById('text')
+            let newPotion = playPosition
+
+            if(event.key === 'ArrowUp'){
+                if(playPosition >= 5){
+                    newPotion = playPosition - 5
+                    Text.textContent = 'Coming Close'
+                }
+            }
+
+            if(event.key === 'ArrowDown'){
+                if(playPosition < 20){
+                    newPotion = playPosition + 5
+                }
+            }
+
+            if(event.key === 'ArrowLeft'){
+                if(playPosition % 5 !==0){
+                    newPotion = playPosition - 1
+                }
+            }
+
+            if(event.key === 'ArrowRight'){
+                if(playPosition % 5 !==4){
+                    newPotion = playPosition + 1
+                }
+            }
+
+            if(newPotion !== playPosition){
+                list[playPosition].style.backgroundColor = ''
+
+                playPosition = newPotion
+
+                list[playPosition].style.backgroundColor = PColor[RandomPositionColor] 
+
+            }
+
+            let distance = Math.abs(RandomNumber - playPosition);
+
+
+            console.log(distance)
+
+if (distance === 0) {
+    Text.textContent = '🎉 Treasure Found!';
+}
+else if (distance <= 5) {
+    Text.textContent = '🔥 Coming Close';
+}
+else {
+    Text.textContent = 'Far Away';
+}
+        })
+
+    </script>
+</body>
+</html>

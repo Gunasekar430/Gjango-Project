@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <h1>Add Rooms</h1>
+    </div>
+
+    <div class="main">
+        <form action="" method="post">
+
+            {% csrf_token %}
+            
+            <input type="text" placeholder="Room Name" name="room_name">
+            <input type="number" placeholder="Room Capacity" name="capacity">
+            <input type="text" placeholder="Room location" name="location">
+
+            <button type="submit">Add Room</button>
+        </form>
+    </div>
+</body>
+</html>

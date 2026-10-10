@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <h1>Employee OverTime Calculator</h1>
+    </div>
+
+    <a href="{% url 'add' %}"><button>Add Employee</button></a>
+
+    <div class="table">
+        <table border="1">
+            <thead>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Employee Id</th>
+                <th>Start Time</th>
+                <th>End Time</th> 
+                <th>Working Time</th>
+                <th>states</th>
+                <th>action</th>
+            </thead>
+
+            <tbody>
+                
+                {% for s in shift %}
+                    <tr>
+                        <td>{{s.emp.name}}</td>
+                        <td>{{s.emp.role}}</td>
+                        <td>{{s.employee_id}}</td>
+                        <td class="startTime">{{s.start_time|time:'H:i'}}</td>
+                        <td class="endTime">{{s.end_time|time:'H:i'}}</td>
+                        <td class="workTime"></td>
+                        <th class="status"></th>
+                        <th>
+                            <a href="{% url 'update' s.id %}"><button>update</button></a>
+                            <a href="{% url 'delete' s.id %}"><button>delete</button></a>
+                        </th>
+
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let StartTime = document.querySelectorAll('.startTime');
+        let EndTime = document.querySelectorAll('.endTime')
+        let WorkTime = document.querySelectorAll('.workTime')
+        let Status = document.querySelectorAll('.status')
+
+        console.log(StartTime.length)
+
+        for(i=0; i < StartTime.length; i++){
+            let start = StartTime[i].innerHTML
+            let end = EndTime[i].innerHTML
+
+            console.log(start)
+
+            let startMin = start.split(':')
+            let endMin = end.split(':')
+
+            console.log(startMin[0])
+
+            let startValue = Number(startMin[0] * 60 + Number(startMin[1]))
+            let endValue = Number(endMin[0] * 60 + Number(endMin[1]))
+
+            console.log(startValue)
+
+            let total = endValue - startValue
+
+            console.log(total/60)
+
+            let TotalWorking = total/60
+
+            console.log(TotalWorking)
+
+            WorkTime[i].textContent = TotalWorking
+
+            if(TotalWorking < 9){
+               Status[i].textContent = 'Eligible';
+            }
+
+            else{
+                Status[i].textContent = ' not Eligible';
+            }
+        }
+    </script>
+
+</body>
+</html>

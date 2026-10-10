@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h1>Employee</h1>
+    </div>
+
+    <div class="table">
+        <a href="{% url 'add' %}"><button>Add Employee</button> </a>
+        <table border="1">
+            <th>Name</th>
+            <th>Role</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Working Time</th>
+            <th>Permission</th>
+            <th>Action</th>
+            
+{% for s in Shift %}
+            <tr>
+                
+                
+                    <td>{{s.employee.Name}}</td>
+                    <td>{{s.employee.Role}}</td>
+                    <td class="startTime">{{s.StartTime|time:'H:i'}}</td>
+                    <td class="endTime">{{s.EndTime|time:'H:i'}}</td>
+                    <td class="work"></td>
+                    <td class="result"></td>
+                    <td>
+                        <a href="view/{{s.id}}"><button>View</button></a>
+                        <a href="delete/{{s.id}}"><button>Delete</button></a>
+                        <a href="update/{{s.id}}"><button>update</button></a>
+                    </td>
+               
+                    
+                
+            </tr>
+             {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        StartTime = document.querySelectorAll(".startTime")
+        EndTime = document.querySelectorAll(".endTime")
+        Total = document.querySelectorAll(".result")
+        Work = document.querySelectorAll(".work")
+
+        
+
+        console.log(StartTime.length)
+
+        for(i=0; i < StartTime.length; i++){
+
+            var start = StartTime[i].innerText;
+            var end = EndTime[i].innerText;
+
+            console.log(start)
+
+            var startMin = start.split(':')
+            var endMin = end.split(':')
+
+            var StartValue = Number(startMin[0]) * 60 + Number(startMin[1])
+            var EndValue = Number(endMin[0]) * 60 + Number(endMin[1])
+
+            var dif = EndValue - StartValue
+            console.log(dif/60)
+
+            var time = (dif/60)
+
+            console.log(time)
+
+            Work[i].textContent = time
+
+            if( time <= 12 ){
+                Total[i].textContent = 'Permission'
+            }
+            else
+            {
+                Total[i].textContent = 'Not Permission'
+            }
+        }
+    </script>
+</body>
+</html>

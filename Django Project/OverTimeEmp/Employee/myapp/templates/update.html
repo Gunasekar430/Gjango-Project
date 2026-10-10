@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <h1>Heading</h1>
+    </div>
+
+    <form action="" method="post">
+
+        {% csrf_token %}
+
+        <input type="text" value="{{shift.emp.name}}" name="name">
+        <input type="text" value="{{shift.emp.role}}" name="role">
+        <input type="text" value="{{shift.employee_id}}" name="employee_id">
+        <input type="time" value="{{shift.start_time | time:'H:i'}}" name="start_time">
+        <input type="time" value="{{shift.end_time | time:'H:i'}}" name="end_time">
+
+        <button type="submit">upDate</button>
+    </form>
+</body>
+</html>
